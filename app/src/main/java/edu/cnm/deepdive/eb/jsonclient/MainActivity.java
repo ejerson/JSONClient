@@ -25,12 +25,15 @@ public class MainActivity extends AppCompatActivity {
     protected Greeting doInBackground(Void... voids) {
       try {
         // final String url = "http://10.0.2.2:8080/classrooms/1"; Use 10.0.2.2 instead of local host
-        final String url = "http://rest-service.guides.spring.io/greeting";
+        final String url = "http://10.0.2.2:8080/decks/1";
         //Retrieves JSON and transforms them into java objects
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         Greeting greeting = restTemplate.getForObject(url, Greeting.class);
         return greeting;
+
+        
+
       } catch (Exception e) {
         Log.e("MainActivity", e.getMessage(), e);
       }
@@ -41,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onPostExecute(Greeting greeting) {
       TextView greetingId = (TextView) findViewById(R.id.greeting_id);
       TextView greetingContent = (TextView) findViewById(R.id.greeting_content);
-      greetingId.setText(greeting.getId());
-      greetingContent.setText(greeting.getContent());
+      greetingId.setText(greeting.getReviewPool());
+      greetingContent.setText(greeting.getdeckName());
     }
   }
 }
