@@ -5,7 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
-import edu.cnm.deepdive.eb.jsonclient.enteties.Greeting;
+import edu.cnm.deepdive.eb.jsonclient.enteties.Deck;
+import edu.cnm.deepdive.eb.jsonclient.enteties.User;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,24 +16,24 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
-    new HttpRequestTask().execute();
+//    new UserHttpTask().execute(); // gets the user
+    new DeckHttpTask().execute(); // get decks that is associated with a user
   }
 
-  private class HttpRequestTask extends AsyncTask<Void, Void, Greeting> {
+  private class UserHttpTask extends AsyncTask<Void, Void, User> {
 
     @Override
-    protected Greeting doInBackground(Void... voids) {
+    protected User doInBackground(Void... voids) {
       try {
         // final String url = "http://10.0.2.2:8080/classrooms/1"; Use 10.0.2.2 instead of local host
-        final String url = "http://10.0.2.2:8080/decks/1";
+        final String url = "http://10.0.2.2:8080/users/1";
         //Retrieves JSON and transforms them into java objects
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        Greeting greeting = restTemplate.getForObject(url, Greeting.class);
-        return greeting;
+        User user = restTemplate.getForObject(url, User.class);
+        return user;
 
-        
+
 
       } catch (Exception e) {
         Log.e("MainActivity", e.getMessage(), e);
@@ -41,11 +42,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostExecute(Greeting greeting) {
-      TextView greetingId = (TextView) findViewById(R.id.greeting_id);
-      TextView greetingContent = (TextView) findViewById(R.id.greeting_content);
-      greetingId.setText(greeting.getReviewPool());
-      greetingContent.setText(greeting.getdeckName());
+    protected void onPostExecute(User user) {
+//      TextView greetingId = (TextView) findViewById(R.id.greeting_id);
+//      TextView greetingContent = (TextView) findViewById(R.id.greeting_content);
+//      greetingId.setText(user.getEmailAddress());
+//      greetingContent.setText(user.getUserName());
     }
   }
+
+  private class DeckHttpTask extends AsyncTask<Void, Void, Deck> {
+    @Override
+    protected Deck doInBackground(Void... voids) {
+      try {
+        // final String url = "http://10.0.2.2:8080/classrooms/1"; Use 10.0.2.2 instead of local host
+        final String url = "http://10.0.2.2:8080/users/1/decks/1";
+
+        //Retrieves JSON and transforms them into java objects
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+        Deck deck = restTemplate.getForObject(url, Deck.class);
+        return deck;
+
+      } catch (Exception e) {
+        Log.e("MainActivity", e.getMessage(), e);
+      }
+      return null;
+    }
+
+    @Override
+    protected void onPostExecute(Deck deck) {
+//      TextView greetingId = (TextView) findViewById(R.id.card_name);
+      TextView greetingContent = (TextView) findViewById(R.id.greeting_content);
+//      greetingId.setText(deck.getDeckName());
+      greetingContent.setText(deck.getDeckName());
+    }
+  }
+
+
+
 }
