@@ -7,29 +7,46 @@ import java.util.List;
 
 public class Card {
 
-  private String id;
-  private String reviewPool;
-  private String deckName;
-  private String deckIcon;
+  private String front;
+  private String back;
+  private String reviewStatus;
+  private String images;
   private String created;
 
   @JsonIgnore
   private String _links;
 
-  public String getReviewPool() {
-    return reviewPool;
+
+  public String getFront() {
+    return front;
   }
 
-  public String getDeckName() {
-    return deckName;
+  public void setFront(String front) {
+    this.front = front;
   }
 
-  public void setDeckName(String deckName) {
-    this.deckName = deckName;
+  public String getBack() {
+    return back;
   }
 
-  public String getDeckIcon() {
-    return deckIcon;
+  public void setBack(String back) {
+    this.back = back;
+  }
+
+  public String getReviewStatus() {
+    return reviewStatus;
+  }
+
+  public void setReviewStatus(String reviewStatus) {
+    this.reviewStatus = reviewStatus;
+  }
+
+  public String getImages() {
+    return images;
+  }
+
+  public void setImages(String images) {
+    this.images = images;
   }
 
   public String getCreated() {
@@ -40,19 +57,19 @@ public class Card {
     return _links;
   }
 
-  public static class DeckCollection {
+  public static class CardCollection {
 
     @JsonProperty("_embedded")
-    private EmbeddedDecks embedded;
+    private EmbeddedCards embedded;
 
     @JsonIgnore
     private String _links;
 
-    public EmbeddedDecks getEmbedded() {
+    public EmbeddedCards getEmbedded() {
       return embedded;
     }
 
-    public void setEmbedded(EmbeddedDecks embedded) {
+    public void setEmbedded(EmbeddedCards embedded) {
       this.embedded = embedded;
     }
 
@@ -64,17 +81,17 @@ public class Card {
       this._links = _links;
     }
 
-    public static class EmbeddedDecks {
+    public static class EmbeddedCards {
 
-      @JsonProperty("decks")
-      private List<Card> decks;
+      @JsonProperty("cards")
+      private List<Card> cards;
 
-      public List<Card> getDecks() {
-        return decks;
+      public List<Card> getCards() {
+        return cards;
       }
 
-      public void setDecks(List<Card> decks) {
-        this.decks = decks;
+      public void setCards(List<Card> cards) {
+        this.cards = cards;
       }
 
     }
