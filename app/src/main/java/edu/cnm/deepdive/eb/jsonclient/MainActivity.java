@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.TextView;
 import edu.cnm.deepdive.eb.jsonclient.enteties.Deck;
 import edu.cnm.deepdive.eb.jsonclient.enteties.User;
+import java.util.List;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         User user = restTemplate.getForObject(url, User.class);
         return user;
 
-
-
       } catch (Exception e) {
         Log.e("MainActivity", e.getMessage(), e);
       }
@@ -50,19 +49,47 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  private class DeckHttpTask extends AsyncTask<Void, Void, Deck> {
+//  private class DeckHttpTask extends AsyncTask<Void, Void, Deck> {
+//    @Override
+//    protected Deck doInBackground(Void... voids) {
+//      try {
+//        // final String url = "http://10.0.2.2:8080/classrooms/1"; Use 10.0.2.2 instead of local host
+//        final String url = "http://10.0.2.2:8080/users/1/decks/1";
+//
+//        //Retrieves JSON and transforms them into java objects
+//        RestTemplate restTemplate = new RestTemplate();
+//        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//        Deck deck = restTemplate.getForObject(url, Deck.class);
+//        return deck;
+//
+//      } catch (Exception e) {
+//        Log.e("MainActivity", e.getMessage(), e);
+//      }
+//      return null;
+//    }
+//
+//    @Override
+//    protected void onPostExecute(Deck deck) {
+////      TextView greetingId = (TextView) findViewById(R.id.card_name);
+//      TextView greetingContent = (TextView) findViewById(R.id.greeting_content);
+////      greetingId.setText(deck.getDeckName());
+//      greetingContent.setText(deck.getDeckName());
+//    }
+//  }
+
+
+
+
+  private class DeckHttpTask extends AsyncTask<Void, Void, List<Deck>> {
     @Override
-    protected Deck doInBackground(Void... voids) {
+    protected List<Deck> doInBackground(Void... voids) {
       try {
         // final String url = "http://10.0.2.2:8080/classrooms/1"; Use 10.0.2.2 instead of local host
-        final String url = "http://10.0.2.2:8080/users/1/decks/1";
-
-        //Retrieves JSON and transforms them into java objects
+        final String url = "http://10.0.2.2:8080/users/1/decks";
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        Deck deck = restTemplate.getForObject(url, Deck.class);
-        return deck;
-
+        Deck.DeckCollection collection = restTemplate.getForObject(url, Deck.DeckCollection.class);
+        return collection.getEmbedded().getDecks();
       } catch (Exception e) {
         Log.e("MainActivity", e.getMessage(), e);
       }
@@ -70,14 +97,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostExecute(Deck deck) {
+    protected void onPostExecute(List<Deck> decks) {
 //      TextView greetingId = (TextView) findViewById(R.id.card_name);
       TextView greetingContent = (TextView) findViewById(R.id.greeting_content);
 //      greetingId.setText(deck.getDeckName());
-      greetingContent.setText(deck.getDeckName());
+      greetingContent.setText(decks.get(0).getDeckName());
     }
   }
-
 
 
 }

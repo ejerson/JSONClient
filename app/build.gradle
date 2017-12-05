@@ -24,6 +24,9 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/notice.txt'
+        exclude 'META-INF/spring.tooling'
+        exclude 'META-INF/spring.handlers'
+        exclude 'META-INF/spring.schemas'
     }
 }
 
@@ -35,6 +38,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
+//    compile 'org.springframework.hateoas:spring-hateoas:0.24.0.RELEASE'
+//    compile 'com.jayway.jsonpath:json-path:2.4.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.0'
 
     testCompile 'junit:junit:4.12'
