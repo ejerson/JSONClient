@@ -105,5 +105,12 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
+  // TODO this is how I post to a specific deck with a specific user.
+
+//  {
+//    "deckName" : "Yes for android",
+//      "user" : "http://localhost:8080/users/1"
+//  }
+
 
 }
